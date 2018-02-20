@@ -1,0 +1,117 @@
+<!--
+  Generated template for the AddNewItemPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title>
+     {{ pageTitle }}
+    </ion-title>
+    
+  </ion-navbar>
+</ion-header>
+
+   <ion-content padding>
+    
+    <div>
+      <ion-item *ngIf="!isEdited && !hideForm">
+        <button ion-button icon-right full round (click)="scanBarcode()">
+         Scan New Item<ion-icon name="barcode"></ion-icon></button>
+         </ion-item>
+
+       <ion-item *ngIf="isEdited && !hideForm">
+          <button
+             ion-button
+             item-right
+             color="secondary"
+             text-center
+             block
+             (click)="deleteEntry()" >Remove this Entry?</button>
+       </ion-item>
+  
+  
+       <div *ngIf="hideForm">
+          <ion-avatar>
+              <img class="avatarImg" src="assets/imgs/thumbsup.jpg">
+          </ion-avatar>
+          <ion-item class="post-entry-message" text-wrap>
+             <br>
+             <h1>Success!</h1>
+             <br>
+             <button navPush="ShoppingListPage" ion-button full color="secondary" round>Back to Shopping List</button>
+             <br>
+             <button navPush="AddNewItemPage" ion-button full color="default" round>Add Another Item</button>
+
+          </ion-item>
+       </div>
+  
+  
+       <div *ngIf="!hideForm">
+          <form [formGroup]="form" (ngSubmit)="saveEntry()">
+  
+               <!-- <ion-item-group>
+                  <ion-item-divider color="light">Customer ID:</ion-item-divider>
+                  <ion-item>
+                     <ion-input
+                        type="number"
+                        placeholder="Enter a number..."
+                        formControlName="CustomerID"
+                        [(ngModel)]="custID"></ion-input>
+                  </ion-item>
+               </ion-item-group>-->
+
+               <ion-item-group>
+                   <ion-item-divider color="light">Product Name:</ion-item-divider>
+                   <ion-item>
+                      <ion-input
+                         type="text"
+                         placeholder="Enter a name..."
+                         formControlName="ProductName"
+                         [(ngModel)]="productName"></ion-input>
+                   </ion-item>
+                </ion-item-group>
+    
+    
+                <ion-item-group>
+                  <ion-item-divider color="light">Product Quantity:</ion-item-divider>
+                  <ion-item>
+                     <ion-input
+                        type="number"
+                        placeholder="Enter quantity..."
+                        formControlName="ProductQuantity"
+                        [(ngModel)]="productQuantity"></ion-input>
+                  </ion-item>
+               </ion-item-group>
+
+               <ion-list>
+                <ion-item-group>
+                   <ion-item-divider color="light">Product Price:</ion-item-divider>
+                   <ion-item>
+                      <ion-input
+                         type="number"
+                         step="0.01"
+                         placeholder="Enter a price..."
+                         formControlName="ProductPrice"
+                         [(ngModel)]="productPrice"></ion-input>
+                   </ion-item>
+                </ion-item-group>
+  
+                <ion-item>
+                   <button
+                      ion-button
+                      color="primary"
+                      text-center
+                      block
+                      [disabled]="!form.valid">Save Entry</button>
+                </ion-item>
+  
+             </ion-list>
+  
+          </form>
+       </div>
+    </div>
+  <!--<button navPush = "TestPage" ion-button full id="add_btn">Test Page</button>-->
+  
+  </ion-content>

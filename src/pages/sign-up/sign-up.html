@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-navbar color="blue">
+    <ion-title>
+     Register
+    </ion-title>
+    
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+       <ion-item *ngIf="isEdited && !hideForm">
+          <button
+             ion-button
+             item-right
+             color="secondary"
+             text-center
+             block
+             (click)="deleteEntry()" >Remove this Entry?</button>
+       </ion-item>
+  
+  
+       <div *ngIf="hideForm">
+          <ion-avatar>
+              <img class="avatarImg" src="assets/imgs/thumbsup.jpg">
+          </ion-avatar>
+          <ion-item class="post-entry-message" text-wrap>
+             <br>
+             <h1>Success! Please Log In</h1>
+             <br>
+             <button navPush="HomePage" ion-button full color="secondary" round>Back to Home Page</button>
+             
+
+          </ion-item>
+       </div>
+  
+  
+       <div *ngIf="!hideForm">
+          <form [formGroup]="form" (ngSubmit)="saveUser()">
+  
+               <ion-item-group>
+                  <ion-item-divider color="light">Username:</ion-item-divider>
+                  <ion-item>
+                     <ion-input
+                        type="text"
+                        placeholder="Enter a username..."
+                        formControlName="username"
+                        [(ngModel)]="uName"></ion-input>
+                  </ion-item>
+               </ion-item-group>
+
+               <ion-item-group>
+                   <ion-item-divider color="light">Password:</ion-item-divider>
+                   <ion-item>
+                      <ion-input
+                         type="text"
+                         placeholder="Enter a password..."
+                         formControlName="password"
+                         [(ngModel)]="pWord"></ion-input>
+                   </ion-item>
+                </ion-item-group>
+    
+    
+                <ion-item-group>
+                  <ion-item-divider color="light">Full Name:</ion-item-divider>
+                  <ion-item>
+                     <ion-input
+                        type="text"
+                        placeholder="Enter full name..."
+                        formControlName="name"
+                        [(ngModel)]="fName"></ion-input>
+                  </ion-item>
+               </ion-item-group>
+
+               <ion-list>
+                <ion-item-group>
+                   <ion-item-divider color="light">Email Address:</ion-item-divider>
+                   <ion-item>
+                      <ion-input
+                         type="text"
+                         placeholder="Enter email address..."
+                         formControlName="email"
+                         [(ngModel)]="eMail"></ion-input>
+                   </ion-item>
+                </ion-item-group>
+  
+                <ion-item>
+                   <button
+                      ion-button
+                      color="primary"
+                      text-center
+                      block
+                      [disabled]="!form.valid">Sign Up</button>
+                </ion-item>
+  
+             </ion-list>
+  
+          </form>
+       </div>
+
+</ion-content>
+

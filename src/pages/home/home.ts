@@ -64,7 +64,7 @@ export class HomePage {
       
     
        if(value.username = 'markglenn' && value.password == "211230mG"){
-        this.navCtrl.push('ShoppingListPage'); 
+        this.navCtrl.push('SelectStorePage'); 
        }else{
         this.sendNotification('Invalid Username or!');
          console.log("invalid details");
