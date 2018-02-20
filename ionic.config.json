@@ -1,0 +1,8 @@
+{
+  "name": "savvyShopper",
+  "app_id": "4e69fdb3",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
