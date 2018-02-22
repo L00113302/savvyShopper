@@ -4,7 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //import { ShoppingListPage } from '../shopping-list/shopping-list';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
-/**
+import { SelectStorePage } from '../select-store/select-store';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { Http, Headers } from '@angular/http';
+/*
  * Generated class for the HomePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
@@ -19,6 +22,10 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 
 
 export class HomePage { 
+
+  responseData : any;
+  userData = {"username": "","password": ""};
+
    // Define FormGroup property for managing form validation / data retrieval
    public authForm                  : FormGroup;
 
@@ -49,7 +56,11 @@ export class HomePage {
   
   
   
-  constructor(public http : HttpClient,  public navCtrl: NavController, public navParams: NavParams, public fb : FormBuilder, public toastCtrl : ToastController) {
+  constructor(public http : HttpClient, public Http: Http,  public navCtrl: NavController, public navParams: NavParams, 
+    public fb : FormBuilder, 
+    public toastCtrl : ToastController,
+    public authService:AuthServiceProvider
+  ) {
 
     this.authForm = fb.group({
       username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*'), Validators.minLength(8), Validators.maxLength(30)])],
@@ -61,23 +72,29 @@ export class HomePage {
     if(this.authForm.valid) {
         window.localStorage.setItem('username', value.username);
        window.localStorage.setItem('password', value.password);
-      
     
-       if(value.username = 'markglenn' && value.password == "211230mG"){
-        this.navCtrl.push('SelectStorePage'); 
-       }else{
-        this.sendNotification('Invalid Username or!');
-         console.log("invalid details");
-       }
-        //this.checkEntry();
-        } 
-    
-} 
+    let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
+        options 	: any		= {"key":"validateUser", "username" : value.username, "password" : value.password},
+        url       : any      	= this.baseURI + "SlimRestful/api/login";
+       //url       : any      	= this.baseURI + "manage-dataAWS.php";
 
- /* 
-   * Clear values in the page's HTML form fields
-   *
-   */
+   this.http.post(url, JSON.stringify(options), headers)
+   .subscribe((data : any) =>
+   {
+      // If the request was successful notify the user
+      this.hideForm   = true;
+      this.sendNotification(`Congratulations the user: ${value.username} was successfully verified`);
+      this.navCtrl.push('SelectStorePage'); 
+   },
+   (error : any) =>
+   {
+     console.log(value.username);
+     console.log(error);
+     this.sendNotification('Something went wrong!');
+   });
+  }
+}
+
   resetFields() : void
   {
      //this.custID           = "";
@@ -144,5 +161,25 @@ export class HomePage {
     {
       //if(this.uName)
     }
+
+   /* login(){
+      this.authService.postData(this.userData).then((result) => {
+       this.responseData = result;
+       if(this.responseData.userData){
+       console.log(this.responseData);
+       localStorage.setItem('userData', JSON.stringify(this.responseData));
+       this.navCtrl.push(SelectStorePage);
+       }
+       else{ 
+         console.log("Invalid User");
+        console.log(result);
+        console.log(this.userData);
+        }
+     }, (err) => {
+       console.dir(err);
+       // Error log
+     });
+  
+    }*/
   
   }

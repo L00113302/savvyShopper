@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-//import {BarcodeScanner, BarcodeScannerOptions} from '@ionic-native/barcode-scanner';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HomePage } from '../home/home';
 /**
  * Generated class for the SignupPage page.
  *
@@ -122,7 +122,6 @@ export class SignUpPage {
          options 	: any		= { "key" : "addUser", "username" : username, "password" : password, "name" : name, "email" : email },
          url       : any      	= this.baseURI + "manage-dataAWS.php";
         // url       : any      	= this.URL + "/add";
-
      this.http.post(url, JSON.stringify(options), headers)
      .subscribe((data : any) =>
      {
@@ -137,6 +136,7 @@ export class SignUpPage {
         this.sendNotification('Something went wrong!');
      });
   }
+
 
 
 
@@ -159,7 +159,7 @@ export class SignUpPage {
      {
         // If the request was successful notify the user
         this.hideForm  =  true;
-        this.sendNotification(`Congratulations the technology: ${name} was successfully updated`);
+        this.sendNotification(`Congratulations the: ${name} was successfully updated`);
      },
      (error : any) =>
      {
@@ -252,6 +252,9 @@ export class SignUpPage {
          duration      : 3000
      });
      notification.present();
+  }
+  goHome(){
+      this.navCtrl.push(HomePage);
   }
  /* options: BarcodeScannerOptions;
   results: {};
