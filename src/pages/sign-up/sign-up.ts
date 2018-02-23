@@ -23,7 +23,7 @@ export class SignUpPage {
   //Model for managing fields
    public uName         : any;
    public pWord         : any;
-   public fName  : any;
+   public fName         : any;
    public eMail        : any;
 
    // Flag to be used for checking whether we are adding/editing an entry
@@ -40,9 +40,9 @@ export class SignUpPage {
   public recordID               : any      = null;
 
   //Remote URI for retrieving data from and sending data to
-  //private baseURI               : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
+  private baseURI               : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
   //private URL : String = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/slimapp/public/index.php/api/shoppingListEntry";
-  private baseURI   : string = "http://127.0.0.1/";
+  //private baseURI   : string = "http://127.0.0.1/";
 
 
 
@@ -109,8 +109,6 @@ export class SignUpPage {
   }
 
 
-
-
   /**
    * Save a new record that has been added to the page's HTML form
    * Use angular's http post method to submit the record data
@@ -127,7 +125,8 @@ export class SignUpPage {
      {
         // If the request was successful notify the user
         this.hideForm   = true;
-        this.sendNotification(`Congratulations the user: ${username} was successfully added`);
+        //this.sendNotification(`Congratulations the user: ${username} was successfully added`);
+        this.sendNotification('Congratulations the user was successfully added');
      },
      (error : any) =>
      {
@@ -136,6 +135,7 @@ export class SignUpPage {
         this.sendNotification('Something went wrong!');
      });
   }
+
 
 
 

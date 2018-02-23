@@ -28,8 +28,8 @@ export class HomePage {
 
    // Define FormGroup property for managing form validation / data retrieval
    public authForm                  : FormGroup;
-
-   private baseURI   : string = "http://127.0.0.1/";
+   private baseURI               : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
+   //private baseURI   : string = "http://127.0.0.1/";
    //Model for managing fields
    // public custID         : any;
     public username         : any;
@@ -74,7 +74,7 @@ export class HomePage {
        window.localStorage.setItem('password', value.password);
     
     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
-        options 	: any		= {"key":"validateUser", "username" : value.username, "password" : value.password},
+        options 	: any		= {"username" : value.username, "password" : value.password},
         url       : any      	= this.baseURI + "SlimRestful/api/login";
        //url       : any      	= this.baseURI + "manage-dataAWS.php";
 
@@ -149,7 +149,7 @@ export class HomePage {
   });
   }/*/
     ionViewDidLoad() {
-      console.log('ionViewDidLoad ShoppingListPage');
+      console.log('ionViewDidLoad HomePage');
     }
   
     //navigate to add item page to view/edit item
