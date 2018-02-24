@@ -46,6 +46,10 @@
 
           </ion-item>
        </div>
+
+       <div *ngIf = "results">
+         <p>{{ results.text }}</p>
+       </div>
   
   
        <div *ngIf="!hideForm">

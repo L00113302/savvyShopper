@@ -81,8 +81,7 @@ export class SignUpPage {
 
 
   /**
-   * Save a new record that has been added to the page's HTML form
-   * Use angular's http post method to submit the record data
+   * create new user
    *
    */
   createUser(username : string, password : string, name: string, email: string) : void
@@ -109,8 +108,9 @@ export class SignUpPage {
      },
      (error : any) =>
      {
-       console.log(username);
-       console.log(error);
+       //console.log(username);
+       //console.log(error);
+       // send notification if user exists
         this.sendNotification('username or email already exists!');
      });
   }

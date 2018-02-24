@@ -22,6 +22,7 @@ export class AddNewItemPage {
     public productName : any;
     public prodQuantity : any;
     public prodPrice : any;
+    public barcodeNo : any;
 
     // Flag to be used for checking whether we are adding/editing an entry
     public isEdited : boolean = false;
@@ -252,11 +253,12 @@ export class AddNewItemPage {
    options: BarcodeScannerOptions;
    results: {};
     
-  getData(){
+  readBarcode(barcodeNo){
     
   }
    async scanBarcode(){
        this.results = await this.barcode.scan();
+      // this.readBarcode(barcodeNo);
        console.log(this.results);
       }
   }

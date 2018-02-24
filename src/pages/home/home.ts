@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-//import { ShoppingListPage } from '../shopping-list/shopping-list';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { SelectStorePage } from '../select-store/select-store';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -54,7 +53,7 @@ export class HomePage {
     public toastCtrl : ToastController,
     public authService:AuthServiceProvider
   ) {
-
+    // validators for username and password fields
     this.authForm = fb.group({
       username: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9_]{8,30}'), Validators.minLength(8), Validators.maxLength(12)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(12)])]
@@ -75,12 +74,10 @@ export class HomePage {
      {
         this.isEdited      = true;
         this.selectEntry(this.navParams.get("record"));
-        //this.pageTitle     = 'Amend entry';
      }
      else
      {
         this.isEdited      = false;
-        //this.pageTitle     = 'Create Entry';
      }
   }
 
@@ -94,7 +91,7 @@ export class HomePage {
      this.recordID        = item.user_id;
      this.uName = item.username;
      this.pWord              = item.password;
-     //this.fName      = item.name;
+     this.fName      = item.name;
      this.eMail = item.email;
   }
 
@@ -122,6 +119,7 @@ export class HomePage {
      notification.present();
   }
 
+  // verify credentials for login
   logInUser(username, password){
     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
     options 	: any		= { "key" : "validateUser", "username" : username, "password" : password},
@@ -140,15 +138,15 @@ export class HomePage {
   },
   (error : any) =>
   {
-    console.log(error);
-    console.log(username);
-    console.log(password);
+   // console.log(error);
+    //console.log(username);
+    //console.log(password);
    this.sendNotification('Wrong Username or Password!');
    this.resetFields();
   });
   }
   
-
+  // if all fields are valid call login method
   onSubmit(value: any): void { 
     if(this.authForm.valid) {
        // window.localStorage.setItem('username', value.username);
