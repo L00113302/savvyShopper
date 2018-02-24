@@ -56,8 +56,8 @@ export class HomePage {
   ) {
 
     this.authForm = fb.group({
-      username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*'), Validators.minLength(8), Validators.maxLength(30)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(7)])]
+      username: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9_]{8,30}'), Validators.minLength(8), Validators.maxLength(12)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(12)])]
   });
 
 }
@@ -135,7 +135,8 @@ export class HomePage {
    // and open select store page
    this.hideForm  =  true;
    this.sendNotification(`Welcome ${username} !`);
-   this.navCtrl.push(SelectStorePage)
+   this.navCtrl.push(SelectStorePage);
+   this.resetFields();
   },
   (error : any) =>
   {
@@ -143,6 +144,7 @@ export class HomePage {
     console.log(username);
     console.log(password);
    this.sendNotification('Wrong Username or Password!');
+   this.resetFields();
   });
   }
   
