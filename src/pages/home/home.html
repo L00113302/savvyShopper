@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<!--<ion-content padding>
     <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
         <ion-item [ngClass]="{'error-border':!authForm.controls.username.valid && authForm.controls.username.touched}">
             <ion-label floating>Username</ion-label>
@@ -53,5 +53,57 @@
       <img class="avatarImg" src="assets/imgs/trphone.jpg">
   </ion-avatar>
 
-</ion-content>
+</ion-content>-->
+<ion-content padding>
 
+       <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)" >
+
+            <ion-item-group>
+               <ion-item [ngClass]="{'error-border':!authForm.controls.username.valid && authForm.controls.username.touched}">
+                    <ion-label floating>Enter Username</ion-label>
+                    <ion-input formControlName="username" type="text" ></ion-input>
+               </ion-item>
+               <ion-item *ngIf="authForm.controls.username.hasError('required') && authForm.controls.username.touched">
+                    <p>Field username is required!</p>
+                </ion-item>
+                <ion-item *ngIf="authForm.controls.username.hasError('pattern') && authForm.controls.username.touched">
+                    <p>Small, Capital Letters!</p>
+                </ion-item>        
+                <ion-item *ngIf="authForm.controls.username.hasError('minlength') && authForm.controls.username.touched">
+                    <p>Minimum username length is 8!</p>
+                </ion-item>
+                <ion-item *ngIf="authForm.controls.username.hasError('maxlength') && authForm.controls.username.touched">
+                    <p>Maximum username length is 12!</p>
+                </ion-item>
+            </ion-item-group>
+
+            <ion-item-group>
+                <ion-item>
+                        <ion-label floating>Enter Password</ion-label>
+                        <ion-input formControlName="password" type="password" ></ion-input>
+                </ion-item>
+             </ion-item-group>
+
+             <ion-item>
+                <button
+                   ion-button full
+                   color="primary"
+                   [disabled]="!authForm.valid">Sign In</button>
+             </ion-item>
+       </form>
+  <br>
+   <br>
+   <ion-title>
+    New to SavvyShopper?
+   </ion-title>
+   <br>
+   
+   <button navPush ="SignUpPage" ion-button full round color="orange" >Sign Up</button>
+  
+   <ion-avatar>
+      <img class="avatarImg" src="assets/imgs/trphone.jpg">
+  </ion-avatar>
+
+  
+
+</ion-content>
