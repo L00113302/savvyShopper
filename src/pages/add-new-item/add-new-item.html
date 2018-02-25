@@ -112,6 +112,20 @@
           </form>
        </div>
     </div>
-  <!--<button navPush = "TestPage" ion-button full id="add_btn">Test Page</button>-->
-  
+    <ion-item>
+        <ion-input
+           type="text"
+           placeholder="Enter barcode" 
+           [(ngModel)]="barcode"></ion-input>
+     </ion-item>
+
+<!--<ion-item>
+        {{ item.ProductName }}
+        <br>
+        Price: €{{ item.ProductPrice }}
+ </ion-item>-->
+
+ <ion-item>
+  <button ion-button full id="bcode" (click)="getData(barcode)">Read Barcode</button>
+</ion-item>
   </ion-content>

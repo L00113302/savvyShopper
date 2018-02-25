@@ -22,6 +22,7 @@ export class AddNewItemPage {
     public productName : any;
     public prodQuantity : any;
     public prodPrice : any;
+    public bCode: any;
 
     // Flag to be used for checking whether we are adding/editing an entry
     public isEdited : boolean = false;
@@ -41,7 +42,8 @@ export class AddNewItemPage {
    //private URL : String = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/slimapp/public/index.php/api/shoppingListEntry";
     //private baseURI   : string = "http://127.0.0.1/";
 
-
+    // result of barcode scan
+    public product : Array<any> =[];
 
    // Initialise module classes
    constructor(private barcode: BarcodeScanner,
@@ -251,14 +253,36 @@ export class AddNewItemPage {
    }
    options: BarcodeScannerOptions;
    results: {};
-    
-  getData(){
-    
-  }
+
+
+   // get product from barcode after scanning 
+   getData(barcodeNo)
+   {
+     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
+     options 	: any		= {"key":"read", "BarcodeNo" : barcodeNo},
+     url       : any      	= "http://localhost/manage-dataAWS.php";
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data : any) =>
+    {
+        // If the request was successful notify the user
+        this.product=data;
+        this.sendNotification(`Congratulations the barcode: ${barcodeNo} was read`);
+        console.log(data);
+    },
+    (error : any) =>
+    {
+         console.log(barcodeNo);
+        console.log(error);
+        this.sendNotification('Something went wrong!');
+    });
+}
+  
    async scanBarcode(){
        this.results = await this.barcode.scan();
-       console.log(this.results);
+      // console.log(this.results);
+       this.getData(this.results);
       }
-  }
+ }
 
 

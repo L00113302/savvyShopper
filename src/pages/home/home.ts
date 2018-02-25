@@ -75,8 +75,8 @@ export class HomePage {
     
     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
         options 	: any		= {"key":"validateUser", "username" : value.username, "password" : value.password},
-        url       : any      	= this.baseURI + "SlimRestful/api/login";
-       //url       : any      	= this.baseURI + "manage-dataAWS.php";
+        //url       : any      	= this.baseURI + "SlimRestful/api/login";
+       url       : any      	= this.baseURI + "manage-dataAWS.php";
 
    this.http.post(url, JSON.stringify(options), headers)
    .subscribe((data : any) =>
