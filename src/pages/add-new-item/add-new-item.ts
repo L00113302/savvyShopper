@@ -22,11 +22,7 @@ export class AddNewItemPage {
     public productName : any;
     public prodQuantity : any;
     public prodPrice : any;
-<<<<<<< HEAD
     public bCode: any;
-=======
-    public barcodeNo : any;
->>>>>>> login-working
 
     // Flag to be used for checking whether we are adding/editing an entry
     public isEdited : boolean = false;
@@ -255,9 +251,7 @@ export class AddNewItemPage {
       });
       notification.present();
    }
-   options: BarcodeScannerOptions;
-   results: {};
-<<<<<<< HEAD
+   
 
 
    // get product from barcode after scanning 
@@ -265,14 +259,15 @@ export class AddNewItemPage {
    {
      let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
      options 	: any		= {"key":"read", "BarcodeNo" : barcodeNo},
-     url       : any      	= "http://localhost/manage-dataAWS.php";
+     url       : any      	= this.baseURI+"manage-dataAWS.php";
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data : any) =>
     {
         // If the request was successful notify the user
         this.product=data;
-        this.sendNotification(`Congratulations the barcode: ${barcodeNo} was read`);
+        this.sendNotification(`The product from: ${barcodeNo} was retrieved`);
+        //this.sendNotification(data);
         console.log(data);
     },
     (error : any) =>
@@ -282,21 +277,12 @@ export class AddNewItemPage {
         this.sendNotification('Something went wrong!');
     });
 }
-  
+options: BarcodeScannerOptions;
+results: {};
    async scanBarcode(){
        this.results = await this.barcode.scan();
-      // console.log(this.results);
-       this.getData(this.results);
-=======
-    
-  readBarcode(barcodeNo){
-    
-  }
-   async scanBarcode(){
-       this.results = await this.barcode.scan();
-      // this.readBarcode(barcodeNo);
-       console.log(this.results);
->>>>>>> login-working
+      console.log(this.results);
+       //this.getData(this.results);
       }
  }
 

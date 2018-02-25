@@ -15,7 +15,7 @@ import { SelectStorePage } from '../pages/select-store/select-store';
   declarations: [
     MyApp,
     HomePage,
-    SelectStorePage,
+    //SelectStorePage,
   ],
   imports: [
     BrowserModule,HttpClientModule,HttpModule,
@@ -25,7 +25,7 @@ import { SelectStorePage } from '../pages/select-store/select-store';
   entryComponents: [
     MyApp,
     HomePage,
-    SelectStorePage,
+    //SelectStorePage,
   ],
   providers: [
     StatusBar,

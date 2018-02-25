@@ -59,7 +59,6 @@ export class HomePage {
       password: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(12)])]
   });
 
-<<<<<<< HEAD
   }
   onSubmit(value: any): void { 
     if(this.authForm.valid) {
@@ -86,8 +85,6 @@ export class HomePage {
      this.sendNotification('Something went wrong!');
    });
   }
-=======
->>>>>>> login-working
 }
 
    /**
@@ -175,21 +172,9 @@ export class HomePage {
   });
   }
   
-  // if all fields are valid call login method
-  onSubmit(value: any): void { 
-    if(this.authForm.valid) {
-       // window.localStorage.setItem('username', value.username);
-       //window.localStorage.setItem('password', value.password);
-       let
-       uName   : string    = this.authForm.controls["username"].value,
-       pWord   : string    = this.authForm.controls["password"].value;
-      // call loginuser method
-      this.logInUser(uName, pWord );
-  
-   }
     
   }
-}
+
 
 
 
