@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-//import { ShoppingListPage } from '../shopping-list/shopping-list';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { SelectStorePage } from '../select-store/select-store';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -23,35 +22,28 @@ import { Http, Headers } from '@angular/http';
 
 export class HomePage { 
 
-  responseData : any;
-  userData = {"username": "","password": ""};
-
    // Define FormGroup property for managing form validation / data retrieval
    public authForm                  : FormGroup;
 
-   private baseURI   : string = "http://127.0.0.1/";
-   //Model for managing fields
-   // public custID         : any;
-    public username         : any;
-    public password  : any;
-    //public prodPrice        : any;
+    //Model for managing fields
+    public uName         : any;
+    public pWord         : any;
+    public fName         : any;
+    public eMail        : any;
+
+     //Property to store the recordID for when an existing entry is being edited
+  public recordID               : any      = null;
+   private baseURI               : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
+   //private baseURI   : string = "http://127.0.0.1/";
+
 
     // Flag to be used for checking whether we are adding/editing an entry
     public isEdited               : boolean = false;
 
    //Flag to hide the form upon successful completion of remote operation
    public hideForm               : boolean = false;
-
-   //Property to help set the page title
-   public pageTitle              : string;
-
-
-   //Property to store the recordID for when an existing entry is being edited
-   public recordID               : any      = null;
- // username: AbstractControl;
-  //password: AbstractControl;  
-  public buttonColor: string = '';
-  public items : Array<any> =[];
+   public buttonColor: string = '';
+   public items : Array<any> =[];
 
   
   
@@ -61,12 +53,13 @@ export class HomePage {
     public toastCtrl : ToastController,
     public authService:AuthServiceProvider
   ) {
-
+    // validators for username and password fields
     this.authForm = fb.group({
-      username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*'), Validators.minLength(8), Validators.maxLength(30)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+      username: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9_]{8,30}'), Validators.minLength(8), Validators.maxLength(12)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(12)])]
   });
 
+<<<<<<< HEAD
   }
   onSubmit(value: any): void { 
     if(this.authForm.valid) {
@@ -93,17 +86,54 @@ export class HomePage {
      this.sendNotification('Something went wrong!');
    });
   }
+=======
+>>>>>>> login-working
 }
 
-  resetFields() : void
+   /**
+   * Triggered when template view is about to be entered
+   * Determine whether we adding or editing a record
+   * based on any supplied navigation parameters
+   */
+  ionViewWillEnter() : void
   {
-     //this.custID           = "";
-     this.username    = "";
-     this.password           = "";
+     this.resetFields();
+
+     if(this.navParams.get("record"))
+     {
+        this.isEdited      = true;
+        this.selectEntry(this.navParams.get("record"));
+     }
+     else
+     {
+        this.isEdited      = false;
+     }
   }
 
+  /**
+   * Assign the navigation retrieved data to properties
+   * used as models on the page's HTML form
+   *
+   */
+  selectEntry(item : any) : void
+  {
+     this.recordID        = item.user_id;
+     this.uName = item.username;
+     this.pWord              = item.password;
+     this.fName      = item.name;
+     this.eMail = item.email;
+  }
 
-
+  /**
+   * Clear values in the page's HTML form fields
+   *
+   */
+  resetFields() : void
+  {
+     this.uName           = "";
+     this.pWord    = "";
+    
+  }
 
   /**
    * Manage notifying the user of the outcome of remote operations
@@ -116,70 +146,51 @@ export class HomePage {
          duration      : 3000
      });
      notification.present();
-    }
-
-  ionViewWillEnter() : void{
-   // this.load();
-    this.username = this.authForm.controls['username'];     
-    this.password = this.authForm.controls['password']; 
   }
-  selectEntry(item : any) : void
-   {
-      this.recordID        = item.user_id;
-      this.username = item.username;
-      this.password              = item.password;
-   }
 
-    /**
-     * retrieve JSON encoded data from remote server
-     * using http class and an observable
-     * 
-     */
-  /*load() : void{
-    this.http
-    //.get('http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/slimapp/public/index.php/api/shoppingList')
-    .get('http://localhost/retrieve-users.php')
-    .subscribe((data : any) =>
+  // verify credentials for login
+  logInUser(username, password){
+    let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options 	: any		= { "key" : "validateUser", "username" : username, "password" : password},
+    url       : any      	= this.baseURI + "manage-dataAWS.php";
+  
+  this.http
+  .post(url, JSON.stringify(options), headers)
+  .subscribe(data =>
   {
-    console.dir(data);
-    this.items = data;
+   // If the request was successful notify the user
+   // and open select store page
+   this.hideForm  =  true;
+   this.sendNotification(`Welcome ${username} !`);
+   this.navCtrl.push(SelectStorePage);
+   this.resetFields();
   },
-  (error : any) =>{
-    console.dir(error);
+  (error : any) =>
+  {
+   // console.log(error);
+    //console.log(username);
+    //console.log(password);
+   this.sendNotification('Wrong Username or Password!');
+   this.resetFields();
   });
-  }/*/
-    ionViewDidLoad() {
-      console.log('ionViewDidLoad ShoppingListPage');
-    }
-  
-    //navigate to add item page to view/edit item
-    viewEntry(param : any) : void{
-      this.navCtrl.push('AddNewItemPage', param);
-    }
-  
-    validUser()
-    {
-      //if(this.uName)
-    }
-
-   /* login(){
-      this.authService.postData(this.userData).then((result) => {
-       this.responseData = result;
-       if(this.responseData.userData){
-       console.log(this.responseData);
-       localStorage.setItem('userData', JSON.stringify(this.responseData));
-       this.navCtrl.push(SelectStorePage);
-       }
-       else{ 
-         console.log("Invalid User");
-        console.log(result);
-        console.log(this.userData);
-        }
-     }, (err) => {
-       console.dir(err);
-       // Error log
-     });
-  
-    }*/
-  
   }
+  
+  // if all fields are valid call login method
+  onSubmit(value: any): void { 
+    if(this.authForm.valid) {
+       // window.localStorage.setItem('username', value.username);
+       //window.localStorage.setItem('password', value.password);
+       let
+       uName   : string    = this.authForm.controls["username"].value,
+       pWord   : string    = this.authForm.controls["password"].value;
+      // call loginuser method
+      this.logInUser(uName, pWord );
+  
+   }
+    
+  }
+}
+
+
+
+  

@@ -18,13 +18,13 @@ import { HomePage } from '../home/home';
 export class SignUpPage {
  
   // Define FormGroup property for managing form validation / data retrieval
-  public form                   : FormGroup;
+  public form : FormGroup;
 
   //Model for managing fields
-   public uName         : any;
-   public pWord         : any;
-   public fName  : any;
-   public eMail        : any;
+   public uName : any;
+   public pWord : any;
+   public fName : any;
+   public eMail : any;
 
    // Flag to be used for checking whether we are adding/editing an entry
    public isEdited               : boolean = false;
@@ -32,18 +32,12 @@ export class SignUpPage {
   //Flag to hide the form upon successful completion of remote operation
   public hideForm               : boolean = false;
 
-  //Property to help set the page title
-  public pageTitle              : string;
 
+  // xampp url testing on local host
+  //private baseURI   : string = "http://127.0.0.1/";
 
-  //Property to store the recordID for when an existing entry is being edited
-  public recordID               : any      = null;
-
-  //Remote URI for retrieving data from and sending data to
-  //private baseURI               : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
-  //private URL : String = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/slimapp/public/index.php/api/shoppingListEntry";
-  private baseURI   : string = "http://127.0.0.1/";
-
+  // AWS url
+  private baseURI               : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
 
 
   // Initialise module classes
@@ -53,150 +47,19 @@ export class SignUpPage {
               public NP         : NavParams,
               public fb         : FormBuilder,
               public toastCtrl  : ToastController)
+
+
   {
 
-   
-
-     // Create form builder validation rules
-     this.form = fb.group({
-        "username"                  : ["", Validators.required],
-        "password"           : ["", Validators.required],
-        "name"                  : ["", Validators.required],
-        "email"           : ["", Validators.required]
-     });
+    // Create form builder validation rules
+    this.form = fb.group({
+        username: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9_]{8,12}'), Validators.minLength(8), Validators.maxLength(30)])],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+        name                 : ["", Validators.required],
+        email           : ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+[a-zA-Z0-9._-]')])]
+    });
+     
   }
-
-
-
-
-  /**
-   * Triggered when template view is about to be entered
-   * Determine whether we adding or editing a record
-   * based on any supplied navigation parameters
-   */
-  ionViewWillEnter() : void
-  {
-     this.resetFields();
-
-     if(this.NP.get("record"))
-     {
-        this.isEdited      = true;
-        this.selectEntry(this.NP.get("record"));
-        this.pageTitle     = 'Amend entry';
-     }
-     else
-     {
-        this.isEdited      = false;
-        this.pageTitle     = 'Create Entry';
-     }
-  }
-
-
-
-
-  /**
-   * Assign the navigation retrieved data to properties
-   * used as models on the page's HTML form
-   *
-   */
-  selectEntry(item : any) : void
-  {
-     this.recordID        = item.user_id;
-     this.uName = item.username;
-     this.pWord              = item.password;
-     this.fName      = item.name;
-     this.eMail = item.email;
-  }
-
-
-
-
-  /**
-   * Save a new record that has been added to the page's HTML form
-   * Use angular's http post method to submit the record data
-   *
-   */
-  createEntry(username : string, password : string, name: string, email: string) : void
-  {
-     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
-         options 	: any		= { "key" : "addUser", "username" : username, "password" : password, "name" : name, "email" : email },
-         url       : any      	= this.baseURI + "manage-dataAWS.php";
-        // url       : any      	= this.URL + "/add";
-     this.http.post(url, JSON.stringify(options), headers)
-     .subscribe((data : any) =>
-     {
-        // If the request was successful notify the user
-        this.hideForm   = true;
-        this.sendNotification(`Congratulations the user: ${username} was successfully added`);
-     },
-     (error : any) =>
-     {
-       console.log(username);
-       console.log(error);
-        this.sendNotification('Something went wrong!');
-     });
-  }
-
-
-
-
-
-  /**
-   * Update an existing record that has been edited in the page's HTML form
-   * Use angular's http post method to submit the record data
-   * to our remote PHP script
-   *
-   */
-  updateEntry(username : string, password : string, name: string, email: string) : void
-  {
-     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
-         options 	: any		= { "key" : "update", "username" : username, "password" : password, "email" : email, "recordID" : this.recordID},
-         url       : any      	= this.baseURI + "manage-dataAWS.php";
-
-     this.http
-     .post(url, JSON.stringify(options), headers)
-     .subscribe(data =>
-     {
-        // If the request was successful notify the user
-        this.hideForm  =  true;
-        this.sendNotification(`Congratulations the: ${name} was successfully updated`);
-     },
-     (error : any) =>
-     {
-         console.log(error);
-        this.sendNotification('Something went wrong!');
-     });
-  }
-
-
-
-
-  /**
-   * Remove an existing record that has been selected in the page's HTML form
-   * Use angular's http post method to submit the record data
-   * to our remote PHP script
-   *
-   */
-  deleteEntry() : void
-  {
-     let name      : string 	= this.form.controls["username"].value,
-         headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
-         options 	: any		= { "key" : "delete", "recordID" : this.recordID},
-         url       : any      	= this.baseURI + "manage-dataAWS.php";
-
-     this.http
-     .post(url, JSON.stringify(options), headers)
-     .subscribe(data =>
-     {
-        this.hideForm     = true;
-        this.sendNotification(`Congratulations the user: ${name} was successfully deleted`);
-     },
-     (error : any) =>
-     {
-        this.sendNotification('Something went wrong!');
-     });
-  }
-
 
 
 
@@ -213,16 +76,44 @@ export class SignUpPage {
          fName          : string = this.form.controls["name"].value,
          eMail   : string    = this.form.controls["email"].value;
 
-     if(this.isEdited)
-     {
-        this.updateEntry(uName, pWord, fName, eMail );
-     }
-     else
-     {
-        this.createEntry(uName, pWord, fName, eMail );
-     }
+     this.createUser(uName, pWord, fName, eMail );
   }
 
+
+  /**
+   * create new user
+   *
+   */
+  createUser(username : string, password : string, name: string, email: string) : void
+  {
+
+    let
+    uName   : string    = this.form.controls["username"].value,
+    pWord   : string    = this.form.controls["password"].value,
+    fName   : string    = this.form.controls["name"].value,
+    eMail   : string    = this.form.controls["email"].value;
+
+     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
+         options 	: any		= { "key" : "addUser", "username" : username, "password" : password, "name" : name, "email" : email },
+         url       : any      	= this.baseURI + "manage-dataAWS.php";
+        
+
+     this.http.post(url, JSON.stringify(options), headers)
+     .subscribe((data : any) =>
+     {
+        // If the request was successful notify the user
+        this.hideForm   = true;
+        this.sendNotification(`${username} was successfully added, please sign in`);
+        this.navCtrl.push(HomePage); 
+     },
+     (error : any) =>
+     {
+       //console.log(username);
+       //console.log(error);
+       // send notification if user exists
+        this.sendNotification('username or email already exists!');
+     });
+  }
 
 
 
@@ -232,12 +123,11 @@ export class SignUpPage {
    */
   resetFields() : void
   {
-     this.uName           = "";
+     this.uName    = "";
      this.pWord    = "";
-     this.fName           = "";
-     this.eMail   = "";
+     this.fName    = ""; 
+     this.eMail    = "";
   }
-
 
 
 
@@ -249,22 +139,11 @@ export class SignUpPage {
   {
      let notification = this.toastCtrl.create({
          message       : message,
-         duration      : 3000
+         duration      : 4000
      });
      notification.present();
   }
-  goHome(){
-      this.navCtrl.push(HomePage);
-  }
- /* options: BarcodeScannerOptions;
-  results: {};
-
-
-  async scanBarcode(){
-      this.results = await this.barcode.scan();
-      console.log(this.results);
-     }/*/
+ 
  }
-
 
 

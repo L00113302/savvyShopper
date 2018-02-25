@@ -22,7 +22,11 @@ export class AddNewItemPage {
     public productName : any;
     public prodQuantity : any;
     public prodPrice : any;
+<<<<<<< HEAD
     public bCode: any;
+=======
+    public barcodeNo : any;
+>>>>>>> login-working
 
     // Flag to be used for checking whether we are adding/editing an entry
     public isEdited : boolean = false;
@@ -253,6 +257,7 @@ export class AddNewItemPage {
    }
    options: BarcodeScannerOptions;
    results: {};
+<<<<<<< HEAD
 
 
    // get product from barcode after scanning 
@@ -282,6 +287,16 @@ export class AddNewItemPage {
        this.results = await this.barcode.scan();
       // console.log(this.results);
        this.getData(this.results);
+=======
+    
+  readBarcode(barcodeNo){
+    
+  }
+   async scanBarcode(){
+       this.results = await this.barcode.scan();
+      // this.readBarcode(barcodeNo);
+       console.log(this.results);
+>>>>>>> login-working
       }
  }
 

@@ -8,12 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomePage } from '../pages/home/home';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { HttpModule } from '@angular/http';
+import { SelectStorePage } from '../pages/select-store/select-store';
 
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    SelectStorePage,
   ],
   imports: [
     BrowserModule,HttpClientModule,HttpModule,
@@ -22,7 +24,8 @@ import { HttpModule } from '@angular/http';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    SelectStorePage,
   ],
   providers: [
     StatusBar,
