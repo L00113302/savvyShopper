@@ -75,14 +75,14 @@ export class HomePage {
    {
       // If the request was successful notify the user
       this.hideForm   = true;
-      this.sendNotification(`Congratulations the user: ${value.username} was successfully verified`);
+      this.sendNotification(`Username ${value.username} was verified`);
       this.navCtrl.push('SelectStorePage'); 
    },
    (error : any) =>
    {
      console.log(value.username);
      console.log(error);
-     this.sendNotification('Something went wrong!');
+     this.sendNotification('Wrong Username or Password!');
    });
   }
 }

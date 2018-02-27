@@ -20,8 +20,8 @@ export class AddNewItemPage {
    //Model for managing fields
    // public custID         : any;
     public productName : any;
-    public prodQuantity : any;
-    public prodPrice : any;
+    public prodQuantity : number;
+    public prodPrice : number=0.00;
     public bCode: any;
 
     // Flag to be used for checking whether we are adding/editing an entry
@@ -40,13 +40,19 @@ export class AddNewItemPage {
    //Remote URI for retrieving data from and sending data to
    private baseURI : string  = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/";
    //private URL : String = "http://ec2-34-244-210-200.eu-west-1.compute.amazonaws.com/slimapp/public/index.php/api/shoppingListEntry";
-    //private baseURI   : string = "http://127.0.0.1/";
+   //private baseURI2   : string = "http://127.0.0.1/";
 
-    // result of barcode scan
-    public product : Array<any> =[];
+    options: BarcodeScannerOptions;
+    results: {};
+    
+     // result of barcode scan
+     //public products : Array<any> =[];
+     public products : any[] = [];
+     public selectedProduct : any;
+     public productFound : boolean = false;
 
    // Initialise module classes
-   constructor(private barcode: BarcodeScanner,
+   constructor(private barcodeScanner: BarcodeScanner,
                public navCtrl : NavController,
                public http : HttpClient,
                public NP : NavParams,
@@ -76,7 +82,7 @@ export class AddNewItemPage {
    ionViewWillEnter() : void
    {
       this.resetFields();
-
+      //this.loadProducts();
       if(this.NP.get("record"))
       {
          this.isEdited = true;
@@ -115,7 +121,7 @@ export class AddNewItemPage {
     * Use angular's http post method to submit the record data
     *
     */
-   createEntry(ProductName : string, ProductQuantity : number, ProductPrice: string) : void
+   createEntry(ProductName : string, ProductQuantity : number, ProductPrice: number) : void
    {
       let headers : any = new HttpHeaders({ 'Content-Type': 'application/json' }),
           options : any = { "key" : "create", "ProductName" : ProductName, "ProductQuantity" : ProductQuantity, "ProductPrice" : ProductPrice },
@@ -146,7 +152,7 @@ export class AddNewItemPage {
     * to our remote PHP script
     *
     */
-   updateEntry(ProductName : string, ProductQuantity : number, ProductPrice: string) : void
+   updateEntry(ProductName : string, ProductQuantity : number, ProductPrice: number) : void
    {
       let headers : any = new HttpHeaders({ 'Content-Type': 'application/json' }),
           options : any = { "key" : "update", "ProductName" : ProductName, "ProductQuantity" : ProductQuantity, "ProductPrice" : ProductPrice, "recordID" : this.recordID},
@@ -209,7 +215,7 @@ export class AddNewItemPage {
       let
           prodName : string = this.form.controls["ProductName"].value,
           prodQuantity : number = this.form.controls["ProductQuantity"].value,
-          prodPrice : string = this.form.controls["ProductPrice"].value;
+          prodPrice : number = this.form.controls["ProductPrice"].value;
 
       if(this.isEdited)
       {
@@ -232,8 +238,8 @@ export class AddNewItemPage {
    {
       //this.custID           = "";
       this.productName    = "";
-      this.prodQuantity           = "";
-      this.prodPrice   = "0.00";
+      this.prodQuantity           = 0;
+      this.prodPrice   = 0.00;
    }
 
 
@@ -252,38 +258,48 @@ export class AddNewItemPage {
       notification.present();
    }
    
-
+    ionViewDidLoad() {
+      console.log('ionViewDidLoad ShoppingListPage');
+    }
+  
 
    // get product from barcode after scanning 
-   getData(barcodeNo)
+   getData(bCode)
    {
-     let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
-     options 	: any		= {"key":"read", "BarcodeNo" : barcodeNo},
-     url       : any      	= this.baseURI+"manage-dataAWS.php";
 
-    this.http.post(url, JSON.stringify(options), headers)
+    let
+     url : any = this.baseURI+"retrieve-productsAWS.php";
+    this.http.get(url)
     .subscribe((data : any) =>
     {
+        this.selectedProduct={};
         // If the request was successful notify the user
-        this.product=data;
-        this.sendNotification(`The product from: ${barcodeNo} was retrieved`);
-        //this.sendNotification(data);
-        console.log(data);
+        this.products=data;
+        this.productFound=true;
+        this.sendNotification(`Product Found`);
+        this.selectedProduct=this.products.find(products => products.BarcodeNo === bCode);
+        console.log(this.selectedProduct);
+        this.productName = this.selectedProduct.ProductName;
+        this.prodQuantity = 1;
+        this.prodPrice = this.selectedProduct.ProductPrice;
+        console.log(this.productName);
+        console.log(this.prodPrice);
     },
     (error : any) =>
     {
-         console.log(barcodeNo);
+         console.log(bCode);
         console.log(error);
         this.sendNotification('Something went wrong!');
     });
 }
-options: BarcodeScannerOptions;
-results: {};
-   async scanBarcode(){
-       this.results = await this.barcode.scan();
-      console.log(this.results);
-       //this.getData(this.results);
-      }
- }
 
-
+ 
+scan(){
+    //this.selectedProduct={};
+      this.barcodeScanner.scan().then((barcodeData) =>{
+          this.selectedProduct=this.getData(barcodeData.text);
+      }, (err) =>{
+          console.dir(err);
+      })
+   }
+}

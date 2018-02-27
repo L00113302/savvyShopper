@@ -17,7 +17,7 @@
     
     <div>
       <ion-item *ngIf="!isEdited && !hideForm">
-        <button ion-button icon-right full round (click)="scanBarcode()">
+        <button ion-button icon-right full round (click)="scan()">
          Scan New Item<ion-icon name="barcode"></ion-icon></button>
          </ion-item>
 
@@ -46,25 +46,9 @@
 
           </ion-item>
        </div>
-
-       <div *ngIf = "results">
-         <p>{{ results.text }}</p>
-       </div>
-  
   
        <div *ngIf="!hideForm">
           <form [formGroup]="form" (ngSubmit)="saveEntry()">
-  
-               <!-- <ion-item-group>
-                  <ion-item-divider color="light">Customer ID:</ion-item-divider>
-                  <ion-item>
-                     <ion-input
-                        type="number"
-                        placeholder="Enter a number..."
-                        formControlName="CustomerID"
-                        [(ngModel)]="custID"></ion-input>
-                  </ion-item>
-               </ion-item-group>-->
 
                <ion-item-group>
                    <ion-item-divider color="light">Product Name:</ion-item-divider>
@@ -122,14 +106,10 @@
            placeholder="Enter barcode" 
            [(ngModel)]="barcodeNumber"></ion-input>
      </ion-item>
-
-<!--<ion-item *ngFor="let item of product">
-        {{ item.ProductName }}
-        <br>
-        Price: €{{ item.ProductPrice }}
- </ion-item>-->
-
  <ion-item>
   <button ion-button full id="bcode" (click)="getData(barcodeNumber)">Read Barcode</button>
+ </ion-item>
+ <ion-item *ngIf = "productFound">
+  <ion-label>{{ selectedProduct.ProductPrice }}</ion-label>
 </ion-item>
   </ion-content>
