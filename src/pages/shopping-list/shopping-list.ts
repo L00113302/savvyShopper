@@ -17,6 +17,9 @@ import { HomePage } from '../home/home';
 })
 export class ShoppingListPage {
 
+  public total:any;
+  public quantity:number;
+  public price:number;
   public buttonColor: string = '';
   public items : Array<any> =[];
   constructor(public http : HttpClient,  public navCtrl: NavController, public navParams: NavParams) {
@@ -26,6 +29,7 @@ export class ShoppingListPage {
  
 ionViewWillEnter() : void{
   this.load();
+
 }
 
   /**
@@ -55,9 +59,14 @@ load() : void{
     this.navCtrl.push('AddNewItemPage', param);
   }
 
-  addToBasket()
+  addToBasket(items:any)
   {
-    this.buttonColor = "#00FF00";
+    //this.quantity = items.ProductQuantity;
+    //this.price = items.ProductPrice;
+    this.quantity=2;
+    this.price=1.99;
+    this.total="Total in Your Basket : €"+this.quantity*this.price;
+    console.log(this.total);
   }
 
   goHome(){

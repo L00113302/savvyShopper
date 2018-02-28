@@ -21,18 +21,27 @@
 <ion-title>Shopping List</ion-title>
 <br/>
 
-<ion-item *ngFor="let item of items">
+<ion-item *ngFor="let item of items ">
 <ion-label (click) = "viewEntry({ record : item })">
-{{ item.ProductName }} ({{ item.ProductQuantity }}) 
+{{ item.ProductName }}
 <br>
-Price: €{{ item.ProductPrice }}  
+Quantity: {{ item.ProductQuantity }} 
+<br> 
+Unit Price: €{{ item.ProductPrice }}  
 </ion-label>
-<button ion-button color = "green" item-right>
-  <ion-icon color ="purple" name="ios-basket"></ion-icon></button>
-<!--<button ion-button clear color = "secondary" item-right (click) = "addToBasket()" [ngStyle] = "{'background-color': buttonColor}">
-  <ion-icon color ="purple" name="ios-basket"></ion-icon></button>-->
+<!--<button ion-button color = "green" item-right>
+  <ion-icon color ="purple" name="ios-basket" (click)="addToBasket({record:item})"></ion-icon></button>-->
+  <ion-checkbox color="purple" checked="false" item-right (click)="addToBasket()"></ion-checkbox>
+
 </ion-item>
 
-    <h2>Total:</h2>
 <button ion-button (click) ="goHome()" full id="db_btn" color="danger" >Log Out</button>
+
 </ion-content>
+<ion-footer class="myFooter">
+<ion-input class="myInput" type="text"
+placeholder="Total in Your Basket: €0.00"
+name="total"
+disabled="true"
+[(ngModel)] ="total" ></ion-input>
+</ion-footer>

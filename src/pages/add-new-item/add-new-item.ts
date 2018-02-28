@@ -20,12 +20,12 @@ export class AddNewItemPage {
    //Model for managing fields
    // public custID         : any;
     public productName : any;
-    public prodQuantity : number;
-    public prodPrice : number=0.00;
+    public productQuantity : any;
+    public productPrice : any;
     public bCode: any;
 
     // Flag to be used for checking whether we are adding/editing an entry
-    public isEdited : boolean = false;
+    public isEdited : boolean = false; 
 
    //Flag to hide the form upon successful completion of remote operation
    public hideForm : boolean = false;
@@ -64,13 +64,14 @@ export class AddNewItemPage {
 
       // Create form builder validation rules
       this.form = fb.group({
-         //"CustomerID" : ["", Validators.required],
          "ProductName" : ["", Validators.required],
-         "ProductQuantity" : ["", Validators.required],
-         "ProductPrice" : ["", Validators.required]
+         "ProductQuantity" : ['', Validators.compose([Validators.required, 
+            Validators.pattern('[1,2,3,4,5,6,7,8,9,10,11]'), Validators.minLength(1), Validators.maxLength(8)])],
+         "ProductPrice" : ['', Validators.compose([Validators.required, 
+            Validators.pattern('^\\d+\\.\\d{2}$'), Validators.minLength(1), Validators.maxLength(8)])]
       });
    }
-
+      
 
 
 
@@ -108,8 +109,16 @@ export class AddNewItemPage {
    {
       this.recordID = item.CustomerID;
       this.productName = item.ProductName;
-      this.prodQuantity = item.ProductQuantity;
-      this.prodPrice = item.ProductPrice;
+      this.productQuantity = item.ProductQuantity;
+      this.productPrice = item.ProductPrice;
+   }
+
+   addItem(item : any) : void
+   {
+     // this.recordID = item.CustomerID;
+      this.productName = item.ProductName;
+      this.productQuantity = 1;
+      this.productPrice = item.ProductPrice;
    }
 
 
@@ -238,8 +247,8 @@ export class AddNewItemPage {
    {
       //this.custID           = "";
       this.productName    = "";
-      this.prodQuantity           = 0;
-      this.prodPrice   = 0.00;
+      this.productQuantity           = " ";
+      this.productPrice   = " ";
    }
 
 
@@ -261,6 +270,7 @@ export class AddNewItemPage {
     ionViewDidLoad() {
       console.log('ionViewDidLoad ShoppingListPage');
     }
+    
   
 
    // get product from barcode after scanning 
@@ -279,11 +289,10 @@ export class AddNewItemPage {
         this.sendNotification(`Product Found`);
         this.selectedProduct=this.products.find(products => products.BarcodeNo === bCode);
         console.log(this.selectedProduct);
-        this.productName = this.selectedProduct.ProductName;
-        this.prodQuantity = 1;
-        this.prodPrice = this.selectedProduct.ProductPrice;
-        console.log(this.productName);
-        console.log(this.prodPrice);
+        this.addItem(this.selectedProduct);
+
+        console.log(this.selectedProduct.ProductPrice);
+        console.log(this.productPrice);
     },
     (error : any) =>
     {
