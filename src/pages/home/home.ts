@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { SelectStorePage } from '../select-store/select-store';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 /*
  * Generated class for the HomePage page.
  *

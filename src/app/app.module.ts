@@ -8,7 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomePage } from '../pages/home/home';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { HttpModule } from '@angular/http';
-import { SelectStorePage } from '../pages/select-store/select-store';
+import { CurrencyPipe } from '@angular/common';
+//import { SelectStorePage } from '../pages/select-store/select-store';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { SelectStorePage } from '../pages/select-store/select-store';
   providers: [
     StatusBar,
     SplashScreen,
+    CurrencyPipe,
     AuthServiceProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

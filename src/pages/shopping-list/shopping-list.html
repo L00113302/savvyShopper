@@ -18,7 +18,7 @@
 </ion-header>
 <ion-content padding>
 
-<ion-title>Shopping List</ion-title>
+<ion-label color="green" class="myLabel">My Shopping List</ion-label>
 <br/>
 
 <ion-item *ngFor="let item of items ">
@@ -29,19 +29,24 @@ Quantity: {{ item.ProductQuantity }}
 <br> 
 Unit Price: €{{ item.ProductPrice }}  
 </ion-label>
-<!--<button ion-button color = "green" item-right>
-  <ion-icon color ="purple" name="ios-basket" (click)="addToBasket({record:item})"></ion-icon></button>-->
-  <ion-checkbox color="purple" checked="false" item-right (click)="addToBasket()"></ion-checkbox>
+<button ion-button color = "green" item-right>
+  <ion-icon color ="purple" name="ios-basket" (click)="addToBasket(item)"></ion-icon></button>
+ <!--<ion-toggle color="purple" (ionChange)="addToBasket(item)" ></ion-toggle>-->
+ <!--<ion-checkbox item-right [(ngModel)] ="item.isChecked" (ionChange)="addToBasket(item)"></ion-checkbox>-->
 
 </ion-item>
 
-<button ion-button (click) ="goHome()" full id="db_btn" color="danger" >Log Out</button>
 
+<button ion-button (click) ="resetList()" block id="db_btn" color="primary" >Clear</button>
+<button ion-button (click) ="goHome()" block id="db_btn" color="danger" >Log Out</button>
 </ion-content>
+
 <ion-footer class="myFooter">
-<ion-input class="myInput" type="text"
-placeholder="Total in Your Basket: €0.00"
+<ion-row align-items-center>Total in Basket:
+<ion-input item-right class="myInput" 
+type="text"
 name="total"
 disabled="true"
-[(ngModel)] ="total" ></ion-input>
+[(ngModel)] ="grandTotal" ></ion-input>
+</ion-row>
 </ion-footer>

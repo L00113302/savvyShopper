@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { HomePage } from '../home/home';
-
+import { CurrencyPipe } from '@angular/common';
 /**
  * Generated class for the ShoppngListPage page.
  *
@@ -17,13 +17,20 @@ import { HomePage } from '../home/home';
 })
 export class ShoppingListPage {
 
-  public total:any;
+  public itemTotal:any;
+  public basketTotal:number=0.00;
+  public grandTotal:any;
+  
   public quantity:number;
   public price:number;
   public buttonColor: string = '';
   public items : Array<any> =[];
-  constructor(public http : HttpClient,  public navCtrl: NavController, public navParams: NavParams) {
-
+  constructor(public http : HttpClient,  public navCtrl: NavController, public navParams: NavParams, private currencyPipe: CurrencyPipe) {
+   // let amount = 1337.1337;
+    //console.log(this.getCurrency(amount));
+  }
+  getCurrency(amount: number) {
+    return this.currencyPipe.transform(amount, 'EUR', "symbol", '1.2-2');
   }
 
  
@@ -59,14 +66,36 @@ load() : void{
     this.navCtrl.push('AddNewItemPage', param);
   }
 
-  addToBasket(items:any)
+  addToBasket(item)
   {
-    //this.quantity = items.ProductQuantity;
-    //this.price = items.ProductPrice;
-    this.quantity=2;
-    this.price=1.99;
-    this.total="Total in Your Basket : €"+this.quantity*this.price;
-    console.log(this.total);
+   // this.isChecked=true;
+    this.quantity=item.ProductQuantity;
+    this.price=item.ProductPrice;
+    this.itemTotal=this.quantity*this.price;
+    this.addToTotal(this.itemTotal);
+    
+    //console.log(this.itemTotal);
+    
+    //console.log(this.quantity);
+    //console.log(this.price);
+  }
+
+  
+
+  addToTotal(itemT){
+    this.basketTotal=itemT+this.basketTotal;
+    this.grandTotal=this.getCurrency(this.basketTotal);
+    //console.log(this.basketTotal);
+    //this.basketTotal="Total in Your Basket : €"+this.basketTotal;
+  }
+  public isChecked:boolean;
+  resetList()
+  {
+    
+    this.itemTotal=0;
+    this.basketTotal=0;
+    this.grandTotal=this.getCurrency(0.00);
+    this.isChecked=false;
   }
 
   goHome(){

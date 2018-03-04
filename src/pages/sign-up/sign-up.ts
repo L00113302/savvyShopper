@@ -87,11 +87,11 @@ export class SignUpPage {
   createUser(username : string, password : string, name: string, email: string) : void
   {
 
-    let
+   /* let
     uName   : string    = this.form.controls["username"].value,
     pWord   : string    = this.form.controls["password"].value,
     fName   : string    = this.form.controls["name"].value,
-    eMail   : string    = this.form.controls["email"].value;
+    eMail   : string    = this.form.controls["email"].value;*/
 
      let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
          options 	: any		= { "key" : "addUser", "username" : username, "password" : password, "name" : name, "email" : email },
