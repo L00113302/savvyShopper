@@ -6,6 +6,7 @@ page-shopping-list {
         align-items: center;
         text-indent: 37px;
         font-size:115%;
+        color: rgb(255, 255, 255);
       }
 
       .myInput {
@@ -15,19 +16,71 @@ page-shopping-list {
         align-items: center;
         text-indent: 37px;
         font-weight: bold;
-        color: rgb(255, 255, 255);
+        color: rgb(250, 234, 4);
       }
       
       .myLabel {
-        background-color: rgb(175, 217, 230);
+        //background-color: rgb(175, 217, 230);
         font-size:150%;
         font-family: 'Courier New', Courier, monospace;
+        //text-align: justify;
+       // justify-content: center;
+       // align-items: center;
+        text-indent: 21px;
+        font-weight: bold;
+        color: rgb(2, 22, 1);
+      }
+
+      .myLabel2 {
+        //background-color: rgb(175, 217, 230);
+        //font-size:150%;
+        font-family: 'Bradley Hand ITC';
+        //text-align: justify;
+       // justify-content: center;
+       // align-items: center;
+       // text-indent: 15px;
+        font-weight: bold;
+        //color: rgb(2, 22, 1);
+      }
+
+      .myIcon {
+        //background-color: rgb(175, 217, 230);
+        //font-size:150%;
+        //font-family: 'Courier New', Courier, monospace;
+        //text-align: justify;
+       // justify-content: center;
+       // align-items: center;
+        text-indent: 1px;
+        font-weight: bold;
+        //color: rgb(2, 22, 1);
+      }
+
+      .myRow {
+        font-size:120%;
         text-align: justify;
         justify-content: center;
         align-items: center;
-        text-indent: 38px;
+        text-indent: 37px;
         font-weight: bold;
-        color: rgb(13, 13, 14);
-      }
+        color: rgb(255, 255, 255);
+      } 
+
+      ion-scroll {
+        white-space: nowrap;
+        height: 250px;
+    }
+
+    .myButton{
+      width:40px;
+    }
+
+    .myCheckbox{
+      left:20px;
+    }
+
+    ion-checkbox .item-cover{
+      display:none;
+    }
+      
 
  }

@@ -17,32 +17,32 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-
-<ion-label color="green" class="myLabel">My Shopping List</ion-label>
+ <!-- <button ion-button icon-right full round color="purple" (click)="scanToList()">
+    Scan New Item<ion-icon name="barcode"></ion-icon></button>-->
+<ion-label color="danger" class="myLabel" item-left>
+  My Shopping List
+<ion-icon color ="black" class="myIcon" name="md-clipboard" item-right></ion-icon>
+</ion-label>
 <br/>
 
 <ion-item *ngFor="let item of items ">
-<ion-label (click) = "viewEntry({ record : item })">
+<ion-label class="myLabel2" (click) = "viewEntry({ record : item })">
 {{ item.ProductName }}
 <br>
 Quantity: {{ item.ProductQuantity }} 
 <br> 
 Unit Price: €{{ item.ProductPrice }}  
 </ion-label>
-<button ion-button color = "green" item-right>
-  <ion-icon color ="purple" name="ios-basket" (click)="addToBasket(item)"></ion-icon></button>
- <!--<ion-toggle color="purple" (ionChange)="addToBasket(item)" ></ion-toggle>-->
- <!--<ion-checkbox item-right [(ngModel)] ="item.isChecked" (ionChange)="addToBasket(item)"></ion-checkbox>-->
+
+<ion-checkbox item-right disabled="false" color="purple" checked="false"  [(ngModel)] ="item.checked" (ionChange)="datachanged($event, item)"></ion-checkbox>
 
 </ion-item>
-
-
 <button ion-button (click) ="resetList()" block id="db_btn" color="primary" >Clear</button>
 <button ion-button (click) ="goHome()" block id="db_btn" color="danger" >Log Out</button>
 </ion-content>
 
 <ion-footer class="myFooter">
-<ion-row align-items-center>Total in Basket:
+<ion-row align-items-center class="myRow">Total in Basket:
 <ion-input item-right class="myInput" 
 type="text"
 name="total"

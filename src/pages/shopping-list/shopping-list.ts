@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { HomePage } from '../home/home';
 import { CurrencyPipe } from '@angular/common';
+import { isTrueProperty } from 'ionic-angular/util/util';
 /**
  * Generated class for the ShoppngListPage page.
  *
@@ -16,14 +17,15 @@ import { CurrencyPipe } from '@angular/common';
   templateUrl: 'shopping-list.html',
 })
 export class ShoppingListPage {
-
+  //public isChecked:boolean;
+  public disabled:boolean;
   public itemTotal:any;
   public basketTotal:number=0.00;
   public grandTotal:any;
-  
+  public myColour:String="#000066";
   public quantity:number;
   public price:number;
-  public buttonColor: string = '';
+  public buttonColor: string = 'rgba(0,0,0,0.0)';
   public items : Array<any> =[];
   constructor(public http : HttpClient,  public navCtrl: NavController, public navParams: NavParams, private currencyPipe: CurrencyPipe) {
    // let amount = 1337.1337;
@@ -66,36 +68,49 @@ load() : void{
     this.navCtrl.push('AddNewItemPage', param);
   }
 
-  addToBasket(item)
-  {
-   // this.isChecked=true;
-    this.quantity=item.ProductQuantity;
-    this.price=item.ProductPrice;
-    this.itemTotal=this.quantity*this.price;
-    this.addToTotal(this.itemTotal);
-    
-    //console.log(this.itemTotal);
-    
-    //console.log(this.quantity);
-    //console.log(this.price);
-  }
 
+  checked : boolean;
+
+  datachanged(e:any,item){
+    
+    if(e.checked==true)
+    {
+     //window.localStorage.setItem(e.checked, true);
+     //for(var i=0;i<item.length();i++){
+      this.quantity=item.ProductQuantity;
+      this.price=item.ProductPrice;
+      this.itemTotal=this.quantity*this.price;
+      this.basketTotal=this.itemTotal+this.basketTotal;
+      this.grandTotal=this.getCurrency(this.basketTotal);
+      console.log(item);
+      console.log(this.quantity);
+      console.log(this.price);
+     }
+      
   
-
-  addToTotal(itemT){
-    this.basketTotal=itemT+this.basketTotal;
-    this.grandTotal=this.getCurrency(this.basketTotal);
-    //console.log(this.basketTotal);
-    //this.basketTotal="Total in Your Basket : €"+this.basketTotal;
-  }
-  public isChecked:boolean;
+   
+    if(e.checked==false)
+    {
+      //window.localStorage.setItem(e.checked, "false");
+      this.quantity=item.ProductQuantity;
+      this.price=item.ProductPrice;
+      this.itemTotal=this.quantity*this.price;
+      this.basketTotal=this.basketTotal-this.itemTotal;
+      this.grandTotal=this.getCurrency(this.basketTotal);
+      console.log(item);
+    }
+ 
+  
+}
+  
   resetList()
   {
     
     this.itemTotal=0;
     this.basketTotal=0;
     this.grandTotal=this.getCurrency(0.00);
-    this.isChecked=false;
+    this.checked=false;
+    //this.disabled=false;
   }
 
   goHome(){

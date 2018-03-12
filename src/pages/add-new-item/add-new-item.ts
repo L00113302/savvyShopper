@@ -142,7 +142,7 @@ export class AddNewItemPage {
       {
          // If the request was successful notify the user
          this.hideForm = true;
-         this.sendNotification(`Congratulations the item: ${ProductName} was successfully added`);
+         this.sendNotification(`${ProductName} was added`);
       },
       (error : any) =>
       {
@@ -173,7 +173,7 @@ export class AddNewItemPage {
       {
          // If the request was successful notify the user
          this.hideForm = true;
-         this.sendNotification(`Congratulations the technology: ${ProductName} was successfully updated`);
+         this.sendNotification(`${ProductName} was updated`);
       },
       (error : any) =>
       {
@@ -203,7 +203,7 @@ export class AddNewItemPage {
       .subscribe(data =>
       {
          this.hideForm = true;
-         this.sendNotification(`Congratulations the technology: ${name} was successfully deleted`);
+         this.sendNotification(`${name} was deleted`);
       },
       (error : any) =>
       {
