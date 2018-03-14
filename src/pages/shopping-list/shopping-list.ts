@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HomePage } from '../home/home';
 import { CurrencyPipe } from '@angular/common';
 import { isTrueProperty } from 'ionic-angular/util/util';
+import {Storage} from '@ionic/storage';
+import {Injectable} from '@angular/core';
 /**
  * Generated class for the ShoppngListPage page.
  *
@@ -17,7 +19,7 @@ import { isTrueProperty } from 'ionic-angular/util/util';
   templateUrl: 'shopping-list.html',
 })
 export class ShoppingListPage {
-  //public isChecked:boolean;
+  public checked:boolean;
   public disabled:boolean;
   public itemTotal:any;
   public basketTotal:number=0.00;
@@ -27,7 +29,17 @@ export class ShoppingListPage {
   public price:number;
   public buttonColor: string = 'rgba(0,0,0,0.0)';
   public items : Array<any> =[];
-  constructor(public http : HttpClient,  public navCtrl: NavController, public navParams: NavParams, private currencyPipe: CurrencyPipe) {
+  private baseURI2   : string = "http://127.0.0.1/";
+
+
+
+  constructor(
+    public http : HttpClient,  
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private currencyPipe: CurrencyPipe,
+    public storage:Storage
+  ) {
    // let amount = 1337.1337;
     //console.log(this.getCurrency(amount));
   }
@@ -36,10 +48,11 @@ export class ShoppingListPage {
   }
 
  
-ionViewWillEnter() : void{
+ionViewWillEnter(item) : void{
   this.load();
-
+  this.storage.get("isChecked");
 }
+
 
   /**
    * retrieve JSON encoded data from remote server
@@ -54,37 +67,44 @@ load() : void{
 {
   console.dir(data);
   this.items = data;
+  /*for(var i=0; i<data.length; i++)
+  {
+  this.storage.get("isChecked"[i]);
+  }*/
 },
 (error : any) =>{
   console.dir(error);
 });
 }
-  ionViewDidLoad() {
+  /*ionViewDidLoad() {
     console.log('ionViewDidLoad ShoppingListPage');
-  }
+    this.storage.get("isChecked");
+  }*/
 
   //navigate to add item page to view/edit item
   viewEntry(param : any) : void{
     this.navCtrl.push('AddNewItemPage', param);
   }
 
-
-  checked : boolean;
+  public isChecked:String;
+  public checkChanged(item) {
+    this.items.forEach(item => {
+      this.storage.set("isChecked", item.isChecked);
+    });
+  }
+  
 
   datachanged(e:any,item){
     
     if(e.checked==true)
     {
-     //window.localStorage.setItem(e.checked, true);
-     //for(var i=0;i<item.length();i++){
+    // window.localStorage.setItem("chkd", "true");
+     //console.log(e.checked);
       this.quantity=item.ProductQuantity;
       this.price=item.ProductPrice;
       this.itemTotal=this.quantity*this.price;
       this.basketTotal=this.itemTotal+this.basketTotal;
       this.grandTotal=this.getCurrency(this.basketTotal);
-      console.log(item);
-      console.log(this.quantity);
-      console.log(this.price);
      }
       
   
@@ -97,11 +117,30 @@ load() : void{
       this.itemTotal=this.quantity*this.price;
       this.basketTotal=this.basketTotal-this.itemTotal;
       this.grandTotal=this.getCurrency(this.basketTotal);
-      console.log(item);
     }
  
   
 }
+
+clearCheckfields() : void
+   {
+      let headers : any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+          options : any = { "key" : "clearCheckfields"},
+          url : any = this.baseURI2 + "manage-dataAWS.php";
+         // url       : any      	= this.URL + "/add";
+
+      this.http.post(url, JSON.stringify(options), headers)
+      .subscribe((data : any) =>
+      {
+        console.log("success");
+         //this.navCtrl.push(ShoppingListPage);
+      },
+      (error : any) =>
+      {
+        console.log("fail");
+        console.log(error);
+      });
+   }
   
   resetList()
   {
@@ -109,8 +148,10 @@ load() : void{
     this.itemTotal=0;
     this.basketTotal=0;
     this.grandTotal=this.getCurrency(0.00);
-    this.checked=false;
-    //this.disabled=false;
+    this.clearCheckfields();
+    this.load();
+   // this.resetList();
+    
   }
 
   goHome(){

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ShoppingListPage } from '../shopping-list/shopping-list';
 
 
 @IonicPage()
@@ -143,6 +144,7 @@ export class AddNewItemPage {
          // If the request was successful notify the user
          this.hideForm = true;
          this.sendNotification(`${ProductName} was added`);
+         this.navCtrl.push(ShoppingListPage);
       },
       (error : any) =>
       {
@@ -174,6 +176,7 @@ export class AddNewItemPage {
          // If the request was successful notify the user
          this.hideForm = true;
          this.sendNotification(`${ProductName} was updated`);
+         this.navCtrl.push(ShoppingListPage);
       },
       (error : any) =>
       {
@@ -204,6 +207,7 @@ export class AddNewItemPage {
       {
          this.hideForm = true;
          this.sendNotification(`${name} was deleted`);
+         this.navCtrl.push(ShoppingListPage);
       },
       (error : any) =>
       {

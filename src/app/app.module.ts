@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { HttpModule } from '@angular/http';
 import { CurrencyPipe } from '@angular/common';
+import { IonicStorageModule } from '@ionic/storage';
 //import { SelectStorePage } from '../pages/select-store/select-store';
 
 
@@ -16,23 +17,24 @@ import { CurrencyPipe } from '@angular/common';
   declarations: [
     MyApp,
     HomePage,
-    //SelectStorePage,
   ],
   imports: [
     BrowserModule,HttpClientModule,HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    //SelectStorePage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     CurrencyPipe,
     AuthServiceProvider,
+    Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

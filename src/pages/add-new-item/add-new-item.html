@@ -41,19 +41,19 @@
        </ion-item>
   
   
-       <div *ngIf="hideForm">
+      <!--<div *ngIf="hideForm">
           <ion-avatar>
               <img class="avatarImg" src="assets/imgs/thumbsup.jpg">
           </ion-avatar>
           <ion-item class="post-entry-message" text-wrap>
              <br>
-             <!--<h1>Success!</h1>-->
+             <h1>Success!</h1>
              <br>
-             <!--<button navPush="ShoppingListPage" ion-button full color="secondary" round>Back to Shopping List</button>-->
+             <button navPush="ShoppingListPage" ion-button full color="secondary" round>Back to Shopping List</button>
              <button navPush="AddNewItemPage" ion-button full color="default" round>Add Another Item</button>
 
           </ion-item>
-       </div>
+       </div>-->
   
        <div *ngIf="!hideForm">
           <form [formGroup]="form" (ngSubmit)="saveEntry()">
