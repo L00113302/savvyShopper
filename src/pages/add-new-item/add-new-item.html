@@ -7,113 +7,89 @@
 <ion-header>
   <ion-navbar color="secondary">
     <ion-title>
-     {{ pageTitle }}
+      {{ pageTitle }}
     </ion-title>
-    
+
   </ion-navbar>
 </ion-header>
 
-   <ion-content padding>
-    
-    <div>
-      <ion-item *ngIf="!isEdited && !hideForm">
-        <button ion-button icon-right full round color="purple" (click)="scan()">
-         Scan New Item<ion-icon name="barcode"></ion-icon></button>
-         <ion-item>
-          <ion-input
-             type="text"
-             placeholder="Enter Barcode Number..." 
-             [(ngModel)]="barcodeNumber"></ion-input>
-       </ion-item>
-   <ion-item>
-    <button ion-button full round id="bcode" (click)="getData(barcodeNumber)">Enter Barcode Manually</button>
-   </ion-item>
-         </ion-item>
+<ion-content padding>
 
-       <ion-item *ngIf="isEdited && !hideForm">
-          <button
-             ion-button
-             item-right
-             color="secondary"
-             text-center
-             block
-             (click)="deleteEntry()" >Remove this Entry?</button>
-       </ion-item>
-  
-  
-      <!--<div *ngIf="hideForm">
-          <ion-avatar>
-              <img class="avatarImg" src="assets/imgs/thumbsup.jpg">
-          </ion-avatar>
-          <ion-item class="post-entry-message" text-wrap>
-             <br>
-             <h1>Success!</h1>
-             <br>
-             <button navPush="ShoppingListPage" ion-button full color="secondary" round>Back to Shopping List</button>
-             <button navPush="AddNewItemPage" ion-button full color="default" round>Add Another Item</button>
+  <div>
+    <ion-item *ngIf="!isEdited && !hideForm">
+      <button ion-button icon-right full round color="purple" (click)="scan()">
+        Scan New Item
+        <ion-icon name="barcode"></ion-icon>
+      </button>
+      <ion-item>
+        <ion-input type="text" placeholder="Enter Barcode Number..." [(ngModel)]="barcodeNumber"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button ion-button full round id="bcode" (click)="getData(barcodeNumber)">Enter Barcode Manually</button>
+      </ion-item>
+    </ion-item>
 
+    <ion-item *ngIf="isEdited && !hideForm">
+      <button ion-button item-right color="secondary" text-center block (click)="deleteEntry()">Remove this Entry?</button>
+    </ion-item>
+
+
+    <!--<div *ngIf="hideForm">
+      <ion-avatar>
+        <img class="avatarImg" src="assets/imgs/thumbsup.jpg">
+      </ion-avatar>
+      <ion-item class="post-entry-message" text-wrap>
+        <br>
+        <h1>Success!</h1>
+        <br>
+        <button navPush="ShoppingListPage" ion-button full color="secondary" round>Back to Shopping List</button>
+        <button navPush="AddNewItemPage" ion-button full color="default" round>Add Another Item</button>
+
+      </ion-item>
+    </div>-->
+
+    <div *ngIf="!hideForm">
+      <form [formGroup]="form" (ngSubmit)="saveEntry()">
+
+       <ion-item-group>
+          <ion-item-divider color="light">Product Name:</ion-item-divider>
+          <ion-item [ngClass]="{'error-border':!form.controls.ProductName.valid && form.controls.ProductName.touched}">
+            <ion-input type="text" placeholder="Enter a name..." formControlName="ProductName" [(ngModel)]="productName"></ion-input>
           </ion-item>
-       </div>-->
-  
-       <div *ngIf="!hideForm">
-          <form [formGroup]="form" (ngSubmit)="saveEntry()">
+          <ion-item *ngIf="form.controls.ProductName.hasError('required') && form.controls.ProductName.touched">
+            <p>Product Name is required!</p>
+          </ion-item>
+        </ion-item-group>
 
-               <ion-item-group>
-                   <ion-item-divider color="light">Product Name:</ion-item-divider>
-                   <ion-item [ngClass]="{'error-border':!form.controls.ProductName.valid && form.controls.ProductName.touched}">
-                      <ion-input
-                         type="text"
-                         placeholder="Enter a name..."
-                         formControlName="ProductName"
-                         [(ngModel)]="productName"></ion-input>
-                   </ion-item>
-                   <ion-item *ngIf="form.controls.ProductName.hasError('required') && form.controls.ProductName.touched">
-                    <p>Product Name is required!</p>
-                    </ion-item>
-                </ion-item-group>
-    
-    
-                <ion-item-group>
-                  <ion-item-divider color="light">Product Quantity:</ion-item-divider>
-                  <ion-item [ngClass]="{'error-border':!form.controls.ProductQuantity.valid && form.controls.ProductQuantity.touched}">
-                     <ion-input
-                        type="number"
-                        placeholder="Enter quantity..."
-                        formControlName="ProductQuantity"
-                        [(ngModel)]="productQuantity" min="1"></ion-input>
-                  </ion-item>
-                  <ion-item *ngIf="form.controls.ProductQuantity.hasError('required') && form.controls.ProductQuantity.touched">
-                    <p>Product Quantity is required!</p>
-                    </ion-item>
-               </ion-item-group>
+        <ion-item-group>
+          <ion-item-divider color="light">Product Quantity:</ion-item-divider>
+          <ion-item [ngClass]="{'error-border':!form.controls.ProductQuantity.valid && form.controls.ProductQuantity.touched}">
+            <ion-input type="number" placeholder="Enter quantity..." formControlName="ProductQuantity" [(ngModel)]="productQuantity"
+              min="1"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="form.controls.ProductQuantity.hasError('required') && form.controls.ProductQuantity.touched">
+            <p>Product Quantity is required!</p>
+          </ion-item>
+        </ion-item-group>
 
-               
-                <ion-item-group>
-                   <ion-item-divider color="light">Product Price:</ion-item-divider>
-                   <ion-item [ngClass]="{'error-border':!form.controls.ProductPrice.valid && form.controls.ProductPrice.touched}">
-                      <ion-input
-                         type="number"
-                         step="0.01"
-                         placeholder="Enter a price..."
-                         formControlName="ProductPrice"
-                         [(ngModel)]="productPrice" min=0.01></ion-input>
-                   </ion-item>
-                   <ion-item *ngIf="form.controls.ProductPrice.hasError('required') && form.controls.ProductPrice.touched">
-                    <p>Product Price is required!</p>
-                    </ion-item>
-                </ion-item-group>
-  
-                <ion-item>
-                   <button
-                      ion-button
-                      color="green"
-                      text-center
-                      block
-                      [disabled]="!form.valid">Save Entry</button>
-                </ion-item>
-  
-          </form>
-       </div>
+
+        <ion-item-group>
+          <ion-item-divider color="light">Product Price:</ion-item-divider>
+          <ion-item [ngClass]="{'error-border':!form.controls.ProductPrice.valid && form.controls.ProductPrice.touched}">
+            <ion-input type="number" step="0.01" placeholder="Enter a price..." formControlName="ProductPrice" [(ngModel)]="productPrice"
+              min=0.01></ion-input>
+          </ion-item>
+          <ion-item *ngIf="form.controls.ProductPrice.hasError('required') && form.controls.ProductPrice.touched">
+            <p>Product Price is required!</p>
+          </ion-item>
+        </ion-item-group>
+
+        <ion-item>
+          <button ion-button color="green" text-center block [disabled]="!form.valid">Save Entry</button>
+        </ion-item>
+
+      </form>
     </div>
-    
-  </ion-content>
+  </div>
+
+</ion-content>

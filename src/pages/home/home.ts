@@ -76,7 +76,10 @@ export class HomePage {
       // If the request was successful notify the user
       this.hideForm   = true;
       this.sendNotification(`Username ${value.username} was verified`);
-      this.navCtrl.push('SelectStorePage'); 
+      //this.navCtrl.push('SelectStorePage');
+      this.navCtrl.push('SelectStorePage', {
+        data: value.username
+      }); 
    },
    (error : any) =>
    {
@@ -145,35 +148,7 @@ export class HomePage {
      notification.present();
   }
 
-  // verify credentials for login
-  logInUser(username, password){
-    let headers 	: any		= new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options 	: any		= { "key" : "validateUser", "username" : username, "password" : password},
-    url       : any      	= this.baseURI + "manage-dataAWS.php";
-  
-  this.http
-  .post(url, JSON.stringify(options), headers)
-  .subscribe(data =>
-  {
-   // If the request was successful notify the user
-   // and open select store page
-   this.hideForm  =  true;
-   this.sendNotification(`Welcome ${username} !`);
-   this.navCtrl.push(SelectStorePage);
-   this.resetFields();
-  },
-  (error : any) =>
-  {
-   // console.log(error);
-    //console.log(username);
-    //console.log(password);
-   this.sendNotification('Wrong Username or Password!');
-   this.resetFields();
-  });
-  }
-  
-    
-  }
+}
 
 
 

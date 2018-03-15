@@ -10,7 +10,7 @@
      SavvyShopper 
     </ion-title>
     <ion-buttons end>
-      <button navPush = "AddNewItemPage" ion-button>
+      <button (click)="addItem()" ion-button>
         <ion-icon name = "add"></ion-icon>
       </button>
     </ion-buttons>
@@ -26,22 +26,21 @@
 <br/>
 
 <ion-item *ngFor="let item of items">
-<ion-label class="myLabel2" (click) = "viewEntry({ record : item })">
+<ion-label disabled="isDisabled" class="myLabel2" (click) = "viewEntry({ record : item })">
 {{ item.ProductName }}
 <br>
 Quantity: {{ item.ProductQuantity }} 
 <br> 
 Unit Price: €{{ item.ProductPrice }}  
 </ion-label>
-<ion-checkbox item-right color="purple" checked="isChecked"
-[(ngModel)]="item.dataChecked" (ionChange)="checkChanged(item)"
+<ion-checkbox item-right color="purple"
+[(ngModel)]="item.dataChecked" (ionChange)="checkChanged($event, item)"
 [(ngModel)] ="item.checked" (ionChange)="datachanged($event, item)">
 </ion-checkbox>
 </ion-item>
 
 
-<button ion-button small (click) ="resetList()" block id="db_btn" color="primary" >
-  <ion-icon name = "barcode" click="resetList()"></ion-icon>Clear</button>
+<button ion-button small (click) ="resetList()" block id="db_btn" color="primary" >Clear</button>
 <button ion-button (click) ="goHome()" block id="db_btn" color="danger" >Log Out</button>
 </ion-content>
 

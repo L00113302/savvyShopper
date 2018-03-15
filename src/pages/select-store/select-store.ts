@@ -15,7 +15,29 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SelectStorePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  static get parameters() {
+
+    return [[NavController], [NavParams]];
+  }
+  public username: any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams
+
+
+  ) {
+
+    this.username = this.navParams.get('data');
+    console.log(this.username);
+
+  }
+
+  goShopping()
+  {
+    this.navCtrl.push('ShoppingListPage', {
+      data: this.username
+    }); 
   }
 
   ionViewDidLoad() {
