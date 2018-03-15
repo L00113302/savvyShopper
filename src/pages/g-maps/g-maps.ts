@@ -21,10 +21,30 @@ export class GMapsPage {
   }
  
   ionViewDidLoad(){
-    this.loadMap();
+    this.loadMyMap();
   }
  
   loadMap(){
+ 
+    this.geolocation.getCurrentPosition().then((position) => {
+ 
+      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+ 
+      let mapOptions = {
+        center: latLng,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+ 
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+ 
+    }, (err) => {
+      console.log(err);
+    });
+ 
+  }
+
+  loadMyMap(){
  
     this.geolocation.getCurrentPosition().then((position) => {
  
