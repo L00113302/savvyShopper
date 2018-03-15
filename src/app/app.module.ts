@@ -10,6 +10,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { HttpModule } from '@angular/http';
 import { CurrencyPipe } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation';
 //import { SelectStorePage } from '../pages/select-store/select-store';
 
 
@@ -34,6 +35,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     CurrencyPipe,
     AuthServiceProvider,
+    Geolocation,
     Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { GMapsPage } from '../g-maps/g-maps';
 
 /**
  * Generated class for the SelectStorePage page.
@@ -31,6 +32,10 @@ export class SelectStorePage {
     this.username = this.navParams.get('data');
     console.log(this.username);
 
+  }
+
+  goToMaps(){
+    this.navCtrl.push(GMapsPage);
   }
 
   goShopping()
