@@ -32,6 +32,7 @@
 Quantity: {{ item.ProductQuantity }} 
 <br> 
 Unit Price: €{{ item.ProductPrice }}  
+<br>
 </ion-label>
 <ion-checkbox item-right color="purple"
 [(ngModel)]="item.dataChecked" (ionChange)="checkChanged($event, item)"

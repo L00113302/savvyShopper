@@ -25,6 +25,7 @@ export class AddNewItemPage {
     public productPrice: any;
     public bCode: any;
     public uName: string;
+    //public dataChecked:string="False";
 
     // Flag to be used for checking whether we are adding/editing an entry
     public isEdited: boolean = false;
@@ -64,6 +65,7 @@ export class AddNewItemPage {
 
             this.uName = this.navParams.get('data');
             console.log(this.uName);
+            console.log(this.navParams.data)
 
         // Create form builder validation rules
         this.form = fb.group({
@@ -110,6 +112,7 @@ export class AddNewItemPage {
         this.productName = item.ProductName;
         this.productQuantity = item.ProductQuantity;
         this.productPrice = item.ProductPrice;
+        this.uName = item.uName;
     }
 
     addItem(item: any): void {
@@ -117,6 +120,9 @@ export class AddNewItemPage {
         this.productName = item.ProductName;
         this.productQuantity = 1;
         this.productPrice = item.ProductPrice;
+        //this.dataChecked = this.dataChecked;
+        //this.uName=this.uName;
+    
     }
 
 
@@ -140,10 +146,11 @@ export class AddNewItemPage {
                 this.hideForm = true;
                 this.sendNotification(`${ProductName} was added`);
                 this.navCtrl.push('ShoppingListPage', {
-                    data: uName
+                    data: this.uName
                   }); 
             },
                 (error: any) => {
+                    console.dir(error);
                     this.sendNotification('Something went wrong!');
                 });
     }
@@ -157,7 +164,7 @@ export class AddNewItemPage {
      * to our remote PHP script
      *
      */
-    updateEntry(ProductName: string, ProductQuantity: number, ProductPrice: number, dataChecked: string): void {
+    updateEntry(ProductName: string, ProductQuantity: number, ProductPrice: number, dataChecked: string, uName:string): void {
         let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
             options: any = { "key": "update", "ProductName": ProductName, "ProductQuantity": ProductQuantity, "ProductPrice": ProductPrice, "dataChecked": dataChecked, "recordID": this.recordID },
             url: any = this.baseURI + "manage-dataAWS.php";
@@ -167,9 +174,11 @@ export class AddNewItemPage {
             .subscribe(data => {
                 // If the request was successful notify the user
                 this.hideForm = true;
+                console.log(this.uName);
                 this.sendNotification(`${ProductName} was updated`);
+                //this.navCtrl.pop();
                 this.navCtrl.push('ShoppingListPage', {
-                    data: 'markglenn'
+                    data: uName
                   });
             },
                 (error: any) => {
@@ -198,7 +207,9 @@ export class AddNewItemPage {
             .subscribe(data => {
                 this.hideForm = true;
                 this.sendNotification(`${name} was deleted`);
-                this.navCtrl.push(ShoppingListPage);
+                this.navCtrl.push('ShoppingListPage', {
+                    data: this.uName
+                  });
             },
                 (error: any) => {
                     this.sendNotification('Something went wrong!');
@@ -218,10 +229,11 @@ export class AddNewItemPage {
             prodName: string = this.form.controls["ProductName"].value,
             prodQuantity: number = this.form.controls["ProductQuantity"].value,
             prodPrice: number = this.form.controls["ProductPrice"].value,
-            dataChecked: string = "False";
+            dataChecked: string = "False",
+            uName: string = this.uName;
 
         if (this.isEdited) {
-            this.updateEntry(prodName, prodQuantity, prodPrice, dataChecked);
+            this.updateEntry(prodName, prodQuantity, prodPrice, dataChecked, uName);
         }
         else {
             this.createEntry(prodName, prodQuantity, prodPrice, this.uName);

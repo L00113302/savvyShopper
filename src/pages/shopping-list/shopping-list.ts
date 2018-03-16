@@ -20,7 +20,7 @@ import { Injectable } from '@angular/core';
 })
 export class ShoppingListPage {
   total: any;
-  public isDisabled:string="true";
+  public isDisabled:string="True";
   public dataChecked: string;
   public checked: string;
   public disabled: boolean;
@@ -94,6 +94,9 @@ export class ShoppingListPage {
   //navigate to add item page to view/edit item
   viewEntry(param: any): void {
     this.navCtrl.push('AddNewItemPage', param);
+  /* this.navCtrl.push('AddNewItemPage', {
+      data: this.username
+    }); */
     
   }
 
