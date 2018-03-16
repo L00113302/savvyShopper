@@ -37,7 +37,6 @@ import { Geolocation } from '@ionic-native/geolocation';
     CurrencyPipe,
     AuthServiceProvider,
     Geolocation,
-    Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
