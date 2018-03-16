@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 import { CurrencyPipe } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
+//import { AndroidPermissions } from '@ionic-native/android-permissions';
 //import { SelectStorePage } from '../pages/select-store/select-store';
 
 

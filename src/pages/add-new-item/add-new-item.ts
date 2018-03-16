@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ShoppingListPage } from '../shopping-list/shopping-list';
+//import { AndroidPermissions } from ‘@ionic-native/android-permissions’;
 
 
 @IonicPage()
@@ -61,6 +62,7 @@ export class AddNewItemPage {
         public http: HttpClient,
         public NP: NavParams,
         public fb: FormBuilder,
+       // public androidPermissions: AndroidPermissions,
         public toastCtrl: ToastController) {
 
             this.uName = this.navParams.get('data');
