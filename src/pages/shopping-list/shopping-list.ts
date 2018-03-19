@@ -6,6 +6,7 @@ import { CurrencyPipe } from '@angular/common';
 import { isTrueProperty } from 'ionic-angular/util/util';
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
+import { SelectStorePage } from '../select-store/select-store';
 /**
  * Generated class for the ShoppngListPage page.
  *
@@ -159,6 +160,11 @@ export class ShoppingListPage {
     this.basketTotal = 0;
     this.grandTotal = this.getCurrency(0.00);
     this.clearCheckfields();
+  }
+
+  goToSsP()
+  {
+    this.navCtrl.push(SelectStorePage); 
   }
 
   // back to login

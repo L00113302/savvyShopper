@@ -5,11 +5,16 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar color="secondary">
+  <ion-navbar hideBackButton color="secondary">
     <ion-title>
      SavvyShopper 
     </ion-title>
-    <ion-buttons end>
+    <ion-buttons item-right>
+        <button navPush="SelectStorePage" ion-button>
+          <ion-icon name = "ios-home"></ion-icon>
+        </button>
+      </ion-buttons>
+  <ion-buttons end>
       <button (click)="addItem()" ion-button>
         <ion-icon name = "add"></ion-icon>
       </button>
@@ -40,9 +45,10 @@ Unit Price: €{{ item.ProductPrice }}
 </ion-checkbox>
 </ion-item>
 
-
-<button ion-button small (click) ="resetList()" block id="db_btn" color="primary" >Clear</button>
-<button ion-button (click) ="goHome()" block id="db_btn" color="danger" >Log Out</button>
+<ion-item no-lines>
+<button ion-button item-left class="myButton" (click) ="resetList()" block color="yellow" >Clear</button>
+<button ion-button item-right class="myButton" (click) ="goHome()" block color="danger" >Log Out</button>
+</ion-item>
 </ion-content>
 
 <ion-footer class="myFooter">

@@ -20,6 +20,8 @@
     "@angular/http": "5.0.3",
     "@angular/platform-browser": "5.0.3",
     "@angular/platform-browser-dynamic": "5.0.3",
+    "@capacitor/cli": "^1.0.0-alpha.20",
+    "@capacitor/core": "^1.0.0-alpha.20",
     "@ionic-native/android-permissions": "^4.5.3",
     "@ionic-native/barcode-scanner": "^4.5.3",
     "@ionic-native/core": "4.4.0",
@@ -35,7 +37,6 @@
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.16",
-    "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-plugin-x-toast": "^2.6.2",
     "ionic-angular": "3.9.2",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.8",
+    "@types/googlemaps": "^3.30.8",
     "typescript": "2.4.2"
   },
   "description": "An Ionic project",

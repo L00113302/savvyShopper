@@ -5,8 +5,8 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar color="secondary">
-    <ion-title>
+  <ion-navbar hideBackButton color="secondary">
+    <ion-title class="myTitle" >
      SavvyShopper 
     </ion-title>
 
@@ -22,7 +22,7 @@
   <br>
   <ion-title>Find Your Nearest Store:</ion-title>
   <br>
-  <button navPush ="GMapsPage" ion-button full color="green" round>Google Maps</button>
+  <button (click)="goToMap()" ion-button full color="green" round>Google Maps</button>
   <br>
   <ion-title>Select a Store:</ion-title>
   <br>
