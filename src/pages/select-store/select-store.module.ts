@@ -7,7 +7,7 @@ import { GMapsPage } from '../g-maps/g-maps';
 @NgModule({
   declarations: [
     SelectStorePage,
-    GMapsPage,
+    //GMapsPage,
   ],
   imports: [
     IonicPageModule.forChild(SelectStorePage),

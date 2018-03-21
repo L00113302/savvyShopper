@@ -12,6 +12,7 @@ import { CurrencyPipe } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { ComponentsModule } from '../components/components.module';
+import { GMapsPage } from '../pages/g-maps/g-maps';
 //import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 //import { AndroidPermissions } from '@ionic-native/android-permissions';
 //import { SelectStorePage } from '../pages/select-store/select-store';
@@ -22,6 +23,7 @@ import { ComponentsModule } from '../components/components.module';
   declarations: [
     MyApp,
     HomePage,
+    GMapsPage,
   ],
   imports: [
     BrowserModule,HttpClientModule,HttpModule,
@@ -34,6 +36,7 @@ import { ComponentsModule } from '../components/components.module';
   entryComponents: [
     MyApp,
     HomePage,
+    GMapsPage,
   ],
   providers: [
     StatusBar,
